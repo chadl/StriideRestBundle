@@ -1,0 +1,5 @@
+parameters:
+services:
+  striide_rest.rest.service:
+    class: Striide\RestBundle\Service\RestService
+    arguments: [@logger]
