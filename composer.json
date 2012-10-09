@@ -20,5 +20,5 @@
 			"Striide\\RestBundle": ""
 		}
 	},
-	"target-dir": "Striide/StriideRestBundle"
+	"target-dir": "StriideRestBundle"
 }
