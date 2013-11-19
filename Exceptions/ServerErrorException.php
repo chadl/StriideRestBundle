@@ -1,6 +1,6 @@
 <?php
 namespace Striide\RestBundle\Exceptions;
 
-class ServerErrorException
+class ServerErrorException extends \Exception
 {
 }
