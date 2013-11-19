@@ -116,4 +116,49 @@ class RestService
     }
     return $file_contents;
   }
+  
+  
+  /**
+   *
+   */
+  public function raw($url, $method = 'GET', $params = array(), $headers = array())
+  {
+    $this->logger->info(sprintf("%s", __METHOD__), array( $url, $method, $params, $headers));
+    $ch = curl_init();
+    $timeout = 0; // set to zero for no timeout
+    curl_setopt($ch, CURLOPT_URL, $url);
+    
+    curl_setopt($ch,CURLOPT_PORT,443);
+    
+    if($method == "POST")
+    {
+      curl_setopt($ch, CURLOPT_POST, 1);
+    }
+    
+    curl_setopt($ch,CURLOPT_HTTPHEADER,$headers);
+    
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+
+    $file_contents = curl_exec($ch);
+    $header = curl_getinfo($ch);
+    curl_close($ch);
+
+    if ($header['http_code'] != 200)
+    {
+
+      switch ($header['http_code'])
+      {
+        case '500':
+          throw new ServerErrorException();
+        break;
+        case '404':
+          throw new PageNotFoundException();
+        break;
+        default:
+          $this->logger->info("wha?", $header);
+          throw new \Exception(sprintf("Rest call failed: %s....  status code is: %s",$url, $header['http_code']));
+      }
+    }
+    return $file_contents;
+  }
 }
