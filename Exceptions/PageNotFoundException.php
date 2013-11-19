@@ -1,6 +1,6 @@
 <?php
 namespace Striide\RestBundle\Exceptions;
 
-class PageNotFoundException
+class PageNotFoundException extends \Exception
 {
 }
