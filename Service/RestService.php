@@ -128,6 +128,10 @@ class RestService
     $timeout = 0; // set to zero for no timeout
     curl_setopt($ch, CURLOPT_URL, $url);
     
+    $filename = "/dev/null";
+    $fp = fopen($filename, 'w+');//This is the file where we save the    information
+    curl_setopt($ch, CURLOPT_FILE, $fp); // here it sais to curl to just save it
+    
     curl_setopt($ch,CURLOPT_PORT,443);
     
     if($method == "POST")
@@ -142,6 +146,9 @@ class RestService
     $file_contents = curl_exec($ch);
     $header = curl_getinfo($ch);
     curl_close($ch);
+    
+    fwrite($fp, $file_contents);//write curl response to file
+    fclose($fp);
 
     if ($header['http_code'] != 200)
     {
