@@ -121,7 +121,7 @@ class RestService
   /**
    *
    */
-  public function raw($url, $method = 'GET', $params = array(), $headers = array())
+  public function raw($url, $method = 'GET', $params = array(), $headers = array(),$encode_post = true)
   {
     $this->logger->info(sprintf("%s", __METHOD__), array( $url, $method, $params, $headers));
     $ch = curl_init();
@@ -143,9 +143,17 @@ class RestService
       curl_setopt($ch, CURLOPT_PUT, 1);
     }
     
+    
     curl_setopt($ch,CURLOPT_HTTPHEADER,$headers);
     
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+    if($encode_post)
+    {
+      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));  
+    }
+    else
+    {
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+    }
 
     $file_contents = curl_exec($ch);
     $header = curl_getinfo($ch);
