@@ -138,6 +138,10 @@ class RestService
     {
       curl_setopt($ch, CURLOPT_POST, 1);
     }
+    if($method == "PUT")
+    {
+      curl_setopt($ch, CURLOPT_PUT, 1);
+    }
     
     curl_setopt($ch,CURLOPT_HTTPHEADER,$headers);
     
